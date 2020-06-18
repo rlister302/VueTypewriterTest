@@ -1,0 +1,55 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    var serializedModel = Html.Raw(JsonConvert.SerializeObject(Model.Person, new JsonSerializerSettings(){ ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver() }).Replace("\"", "&quot;"));
+
+
+
+}
+@model VueTypewriterTest.Models.Container
+@using Newtonsoft.Json;
+
+<template id="person">
+    <div>
+        <div>My name is: {{ firstName }} {{ lastName }}</div>
+        <dog-comp v-bind:name="doggy.name" v-bind:breed="doggy.breed"></dog-comp>
+    </div>
+</template>
+
+<template id="dog">
+
+    <div>
+        <div>I have a dog! His name is {{ name }} and he is a {{ breed }}</div>
+    </div>
+
+</template>
+
+<template id="container">
+
+    <div>
+
+        <div>Info is:</div>
+        <person-comp v-bind:first-Name="person.firstName" v-bind:last-Name="person.lastName" v-bind:doggy="person.doggy"></person-comp>
+
+    </div>
+
+</template>
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+</div>
+
+<div id="app">
+
+    <container-comp v-bind:person="{ firstName: 'Ryan', lastName: 'Lister', doggy: { name: 'Nigel', breed: 'Black Lab'}}"></container-comp>
+    <container-comp v-bind:person="@serializedModel"></container-comp>
+
+</div>
+
+<script src="~/dist/main.bundle.js"></script>
+<script>
+    function parse(s) {
+        return JSON.parse(s);
+    }
+</script>
+
+
